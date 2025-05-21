@@ -1,27 +1,31 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
+
 	clipboard "github.com/atotto/clipboard"
 )
 
 func main() {
 
-	fileName := os.Args[1]
-	if fileName == "" {
-		log.Fatalln("File required.")
+	if len(os.Args) == 1 {
+		fmt.Println("File name required.")
+		fmt.Println("Usage: cfile <filename>")
 		os.Exit(0)
 	}
+	fileName := os.Args[1]
 
 	data, err := os.ReadFile(fileName)
 	if err != nil {
-		log.Fatalln(err.Error())
+		fmt.Println("No such file exists.")
+		fmt.Println("Enter a valid file name.")
 		os.Exit(0)
 	}
 
 	if err := clipboard.WriteAll(string(data)); err != nil {
-		log.Fatalln(err.Error())
+		fmt.Println("Failed to copy to clipboard")
+		fmt.Println("Try again.")
 		os.Exit(0)
 	}
 }
